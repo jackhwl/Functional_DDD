@@ -31,6 +31,7 @@ namespace WL_DDD.UI.Controllers
                 return View(customerModel);
 
             var customer = new Customer(customerNameResult.Value, emailResult.Value);
+           // _database.Save(customer);
 
             return RedirectToAction("Index");
         }
