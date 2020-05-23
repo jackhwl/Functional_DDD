@@ -36,9 +36,21 @@ namespace WL_DDD.Logic.Common
         {
             return new Result(true, string.Empty);
         }
+
         public static Result<T> Ok<T>(T value)
         {
             return new Result<T>(value, true, string.Empty);
+        }
+
+        public static Result Combine(params Result[] results)
+        {
+            foreach(Result result in results)
+            {
+                if (result.IsFailure)
+                    return result;
+            }
+
+            return Ok();
         }
     }
     public class Result<T> : Result

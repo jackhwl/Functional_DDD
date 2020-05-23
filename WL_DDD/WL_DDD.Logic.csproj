@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\Maybe.cs" />
+    <Compile Include="Common\ResultExtensions.cs" />
     <Compile Include="Common\Result.cs" />
     <Compile Include="Common\ValueObject.cs" />
     <Compile Include="Customer.cs" />
