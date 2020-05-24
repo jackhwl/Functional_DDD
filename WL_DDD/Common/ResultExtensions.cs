@@ -53,5 +53,24 @@ namespace WL_DDD.Logic.Common
         {
             return func(result);
         }
+
+        public static Result<T> Ensure<T>(this Result<T> result, Func<T, bool> predicate, string errorMessage)
+        {
+            if (result.IsFailure)
+                return result;
+
+            if (!predicate(result.Value))
+                return Result.Fail<T>(errorMessage);
+
+            return result;
+        }
+
+        public static Result<K> Map<T, K>(this Result<T> result, Func<T, K> func)
+        {
+            if (result.IsFailure)
+                return Result.Fail<K>(result.Error);
+
+            return Result.Ok(func(result.Value));
+        }
     }
 }
