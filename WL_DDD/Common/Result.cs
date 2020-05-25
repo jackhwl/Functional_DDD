@@ -14,9 +14,9 @@ namespace WL_DDD.Logic.Common
 
         protected Result(bool isSuccess, string error)
         {
-            if (IsSuccess && error != string.Empty)
+            if (isSuccess && error != string.Empty)
                 throw new InvalidOperationException();
-            if (!IsSuccess && error == string.Empty)
+            if (!isSuccess && error == string.Empty)
                 throw new InvalidOperationException();
 
             IsSuccess = isSuccess;
