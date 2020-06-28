@@ -45,6 +45,7 @@
     <Compile Include="Currency.cs" />
     <Compile Include="Empty.cs" />
     <Compile Include="Money.cs" />
+    <Compile Include="MoneyEnumerableExtensions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SpecificMoney.cs" />
