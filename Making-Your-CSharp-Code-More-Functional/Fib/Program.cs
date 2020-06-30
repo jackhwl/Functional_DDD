@@ -19,7 +19,7 @@ namespace Fib
         }
 
         static IList<long> dynamicCache = new List<long>() {0, 1};
-        static long DynamicFibonacci(int n)
+        static long DynamicFibonacci (int n)
         {
             while(dynamicCache.Count <= n)
             {
@@ -34,11 +34,24 @@ namespace Fib
             return dynamicCache[n];
         }
 
+        static IList<long> forwardCache = new List<long>() { 0, 1 };
+        static long ForwardFibonacci(int n)
+        {
+            while (forwardCache.Count <= n)
+            {
+                forwardCache.Add(forwardCache[forwardCache.Count - 1] + forwardCache[forwardCache.Count - 2]);
+            }
+
+            return forwardCache[n];
+        }
+
         static void Main(string[] args)
         {
             Demonstrate(NaiveFibonacci);
 
             Demonstrate(DynamicFibonacci);
+
+            Demonstrate(ForwardFibonacci);
 
             Console.ReadLine();
         }
