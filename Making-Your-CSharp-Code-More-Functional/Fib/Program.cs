@@ -18,9 +18,28 @@ namespace Fib
             Console.WriteLine();
         }
 
+        static IList<long> dynamicCache = new List<long>() {0, 1};
+        static long DynamicFibonacci(int n)
+        {
+            while(dynamicCache.Count <= n)
+            {
+                dynamicCache.Add(-1);
+            }
+
+            if (dynamicCache[n] < 0)
+            {
+                dynamicCache[n] = n < 2 ? n : DynamicFibonacci(n - 1) + DynamicFibonacci(n - 2);
+            }
+
+            return dynamicCache[n];
+        }
+
         static void Main(string[] args)
         {
             Demonstrate(NaiveFibonacci);
+
+            Demonstrate(DynamicFibonacci);
+
             Console.ReadLine();
         }
     }
