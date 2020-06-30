@@ -12,8 +12,9 @@ namespace Fib
 
         static void Demonstrate(Func<int, long> fibonacci)
         {
+            int offset = 30;
             for (int i=0;i<10;i++)
-                Console.WriteLine($"{i}\t{fibonacci(i)}");
+                Console.WriteLine($"{offset+i}\t{fibonacci(offset+i)}");
             Console.WriteLine();
         }
 
