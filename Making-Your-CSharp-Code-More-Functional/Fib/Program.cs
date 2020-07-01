@@ -13,7 +13,7 @@ namespace Fib
         static void Demonstrate(Func<int, long> fibonacci)
         {
             int offset = 30;
-            for (int i=0;i<10;i++)
+            for (int i=0;i<3;i++)
                 Console.WriteLine($"{offset+i}\t{fibonacci(offset+i)}");
             Console.WriteLine();
         }
@@ -62,6 +62,18 @@ namespace Fib
             return b;
         }
 
+        static IDictionary<int, long> dynamicCache2 = new Dictionary<int, long>();
+        static long DynamicFibonacci2(int n)
+        {
+            long value;
+            if (!dynamicCache2.TryGetValue(n, out value))
+            {
+                value = n < 2 ? n : DynamicFibonacci2(n - 1) + DynamicFibonacci2(n - 2);
+                dynamicCache2[n] = value;
+            }
+
+            return value;
+        }
         static void Main(string[] args)
         {
             Demonstrate(NaiveFibonacci);
@@ -71,6 +83,8 @@ namespace Fib
             Demonstrate(ForwardFibonacci);
 
             Demonstrate(QuickFibonacci);
+
+            Demonstrate(DynamicFibonacci2);
 
             Console.ReadLine();
         }
