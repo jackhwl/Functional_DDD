@@ -45,6 +45,23 @@ namespace Fib
             return forwardCache[n];
         }
 
+        static long QuickFibonacci(int n)
+        {
+            if (n < 2) return n;
+
+            long a = 0;
+            long b = 1;
+
+            for (int k = 2; k <= n; k++)
+            {
+                long c = a + b;
+                a = b;
+                b = c;
+            }    
+
+            return b;
+        }
+
         static void Main(string[] args)
         {
             Demonstrate(NaiveFibonacci);
@@ -52,6 +69,8 @@ namespace Fib
             Demonstrate(DynamicFibonacci);
 
             Demonstrate(ForwardFibonacci);
+
+            Demonstrate(QuickFibonacci);
 
             Console.ReadLine();
         }
