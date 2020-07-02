@@ -12,5 +12,15 @@ namespace Demo
         {
 
         }
+
+        public override Money On(Timestamp time)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override (Amount taken, Money remaining) Take(decimal amount)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

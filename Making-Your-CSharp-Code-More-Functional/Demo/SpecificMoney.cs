@@ -12,8 +12,15 @@ namespace Demo
 
         protected SpecificMoney(Currency currency)
         {
-            Currency = currency;
+            Currency = currency ?? throw new ArgumentNullException(nameof(currency));
         }
+
+        //public static SpecificMoney Of(SpecificMoney @this, Currency currency)
+        //{
+        //    if (currency.Equals(@this.Currency))
+        //        return @this;
+        //    return new Empty(currency);
+        //}
 
         public override SpecificMoney Of(Currency currency)
         {

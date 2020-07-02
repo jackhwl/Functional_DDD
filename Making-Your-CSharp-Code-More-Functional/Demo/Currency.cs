@@ -9,7 +9,7 @@ namespace Demo
     /// <summary>
     /// A mapping of distinct ISO 4217 currency code and numeric code
     /// </summary>
-    public enum Currency
+    public enum Currency0
     {
         Invalid = -1, // this is not from ISO 4217
         AED = 784,
@@ -190,5 +190,18 @@ namespace Demo
         ZAR = 710,
         ZMW = 967,
         ZWL = 932
+    }
+    public class Currency
+    {
+        public string Symbol { get; }
+        private Currency(string symbol)
+        {
+            this.Symbol = symbol;
+        }
+
+        public static Currency USD => new Currency("USD");
+        public static Currency EUR => new Currency("EUR");
+        public static Currency JPY => new Currency("JPY");
+        public override string ToString() => this.Symbol;
     }
 }

@@ -28,7 +28,12 @@ namespace Demo
     {
         static void Main(string[] args)
         {
+            Amount amt = new Amount(Currency.USD, 100);
 
+            Console.WriteLine($"Have {amt}: ");
+            (Amount taken, _) = SpecificMoney.Of(Currency.USD).Take(50);
+
+            Console.ReadLine();
         }
     }
 }
