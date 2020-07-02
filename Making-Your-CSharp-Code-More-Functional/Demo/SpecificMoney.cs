@@ -24,7 +24,7 @@ namespace Demo
 
         public override SpecificMoney Of(Currency currency)
         {
-            if (currency.Equals(this.Currency))
+            if (currency == this.Currency)
                 return this;
             return new Empty(currency);
         }
