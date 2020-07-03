@@ -204,7 +204,7 @@ namespace Demo
         public static Currency JPY => new Currency("JPY");
 
         public override bool Equals(object obj) => 
-            this.Equals(obj as Currency);
+            obj is Currency other && this.Symbol == other.Symbol;
 
         public override int GetHashCode() => this.Symbol.GetHashCode();
 
