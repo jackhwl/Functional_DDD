@@ -26,6 +26,16 @@ namespace Demo
     }
     public class Program
     {
+        static bool CanPay(Money money, Amount expense)
+        {
+            Timestamp now = Timestamp.NOW;
+            switch (money)
+            {
+                case Amount amount when amount.Currency == expense.Currency;
+                    return amount.Value >= expense.Value;
+                case GiftCard 
+            }
+        }
         static void Main(string[] args)
         {
             IDictionary<Currency, Money> moneys = new Dictionary<Currency, Money>();

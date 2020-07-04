@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace Demo
 {
-    public class Timestamp
+    public class Timestamp : DateTime
     {
-       public static Timestamp Now = DateTime.Now as Timestamp ;
     }
 }
