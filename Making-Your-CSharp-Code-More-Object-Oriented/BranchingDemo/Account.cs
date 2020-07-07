@@ -12,12 +12,13 @@ namespace BranchingDemo
 
         private bool IsVarified { get; set;}
         private bool IsClosed { get; set; }
-        private bool IsFrozen { get; set; }
 
         private Action OnUnfreeze { get; }
+        private Action ManageUnfreezing { get; set; }
         public Account(Action onUnfreeze)
         {
             this.OnUnfreeze = onUnfreeze;
+            this.ManageUnfreezing =  this.StayUnfreeze;
         }
 
         public void Deposit(decimal amount)
@@ -25,11 +26,7 @@ namespace BranchingDemo
             if (!this.IsClosed)
                 return;
             // Deposit money
-            if (this.IsFrozen)
-            {
-                this.IsFrozen = false;
-                this.OnUnfreeze();
-            }
+            ManageUnfreezing();
             this.Balance += amount;
         }
 
@@ -39,13 +36,19 @@ namespace BranchingDemo
                 return;
             if (!this.IsClosed)
                 return;
-            if (this.IsFrozen)
-            {
-                this.IsFrozen = false;
-                this.OnUnfreeze();
-            }
+            ManageUnfreezing();
             // Withdraw money
             this.Balance -= amount;
+        }
+
+        private void Unfreeze()
+        {
+            this.OnUnfreeze();
+            this.ManageUnfreezing = this.StayUnfreeze;
+        }
+
+        private void StayUnfreeze()
+        {
         }
 
         public void HolderVerified()
@@ -64,7 +67,7 @@ namespace BranchingDemo
                 return; // Account must not be closed
             if (!this.IsVarified)
                 return; // Account must be verified
-            this.IsFrozen = true;
+            this.ManageUnfreezing = this.Unfreeze;
         }
     }
 }
