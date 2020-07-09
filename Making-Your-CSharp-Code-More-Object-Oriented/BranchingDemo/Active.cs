@@ -8,19 +8,17 @@ namespace BranchingDemo
 {
     class Active : IFreezable
     {
-        IFreezable IFreezable.Deposit()
+        private Action OnUnfreeze { get; }
+
+        public Active(Action onUnfreeze)
         {
-            throw new NotImplementedException();
+            this.OnUnfreeze = onUnfreeze;
         }
 
-        IFreezable IFreezable.Freeze()
-        {
-            throw new NotImplementedException();
-        }
+        public IFreezable Deposit() => this;
 
-        IFreezable IFreezable.Withdraw()
-        {
-            throw new NotImplementedException();
-        }
+        public IFreezable Withdraw() => this;
+
+        public IFreezable Freeze() => new Frozen(this.OnUnfreeze);
     }
 }

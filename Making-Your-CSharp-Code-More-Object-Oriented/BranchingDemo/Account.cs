@@ -13,12 +13,11 @@ namespace BranchingDemo
         private bool IsVarified { get; set;}
         private bool IsClosed { get; set; }
 
-        private Action OnUnfreeze { get; }
         private IFreezable Freezable { get; set; }
 
         public Account(Action onUnfreeze)
         {
-            this.OnUnfreeze = onUnfreeze;
+            this.Freezable = new Active(onUnfreeze);
         }
 
         public void Deposit(decimal amount)
