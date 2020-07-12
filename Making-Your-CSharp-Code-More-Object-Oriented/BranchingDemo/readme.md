@@ -17,60 +17,21 @@
 * E.g. Account only takes care of the balance
 * (a.k.a. Sigle Responsibility Principle - SRP)
 
+## Consequences of separated responsibilities
+* Each class is doing one thing.
+* One new requirement means one new class will be added.
+* New requirement doesn't require an existing class to change!
 
-### uml: class diagram
-```plantuml
-@startuml
-package "Account domain" #DDDDDD {
-    class Account0 {
-        bool IsVerified
-        bool IsClosed
-        bool IsFrozen
-        void Deposit(decimal amount)
-        void Withdraw(decimal amount)
-        void HolderVerified()
-        void Freeze()
-        void Close()
-    }
+## Bad design 
+* A class which is doing everything itself
+* This typically leads to if-then-else instructions everywhere
 
-    class Account {
-        IAccountState State
-        void Deposit(decimal amount)
-        void Withdraw(decimal amount)
-        void HolderVerified()
-        void Freeze()
-        void Close()
-    }
+## Better design
+* Move separate implementations to separate *state* classes
+* Substitute the *state* object to substitute implementation
 
-    interface IAccountState {
-        void Deposit(Action addToBalance)
-        void Withdraw(Action subtractFromBalance)
-        void HolderVerified()
-        void Freeze()
-        void Close()
-    }
-
-    class NotVerified {
-
-    }
-
-    class Active {
-
-    }
-
-    class Frozen {
-
-    }
-
-    class Closed {
-
-    }
-
-    IAccountState <|-- NotVerified
-    IAccountState <|-- Active
-    IAccountState <|-- Frozen
-    IAccountState <|-- Closed
-    IAccountState <-- Account
-}
-@enduml
-```
+## Benefits of the State pattern
+* Class that uses states becomes simple
+* It can focus on its primary role
+* Other roles are delegated to concrete state classes
+* Each concrete class is simple
