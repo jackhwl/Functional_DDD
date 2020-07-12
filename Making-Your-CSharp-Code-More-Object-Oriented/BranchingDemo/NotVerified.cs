@@ -8,26 +8,23 @@ namespace BranchingDemo
 {
     class NotVerified : IAccountState
     {
+        private Action OnUnfreeze { get; }
+        public NotVerified(Action onUnfreeze)
+        {
+            this.OnUnfreeze = onUnfreeze;
+        }
         public IAccountState Close() => new Closed();
 
-        public IAccountState Deposit()
+        public IAccountState Deposit(Action addToBalance)
         {
-            throw new NotImplementedException();
+            addToBalance();
+            return this;
         }
 
-        public IAccountState Freeze()
-        {
-            throw new NotImplementedException();
-        }
+        public IAccountState Freeze() => this;
 
-        public IAccountState HolderVerified()
-        {
-            throw new NotImplementedException();
-        }
+        public IAccountState HolderVerified() => new Active(this.OnUnfreeze);
 
-        public IAccountState Withdraw()
-        {
-            throw new NotImplementedException();
-        }
+        public IAccountState Withdraw(Action subtractFromBalance) => this;
     }
 }

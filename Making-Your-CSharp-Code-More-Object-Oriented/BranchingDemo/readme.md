@@ -7,3 +7,12 @@
 ## Consequences of the State Pattern
 * Class doesn't have to represent its state explicitly anymore.
 * Class doesn't have to manage state transition logic.
+
+* No more branching.
+* Runtime type of the state object replaces branching.
+* Dynamic dispatch used to choose one implementation or the other.
+
+## Advice
+* Let the class do only one thing.
+* E.g. Account only takes care of the balance
+* (a.k.a. Sigle Responsibility Principle - SRP)

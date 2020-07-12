@@ -15,15 +15,17 @@ namespace BranchingDemo
             this.OnUnfreeze = onUnfreeze;
         }
          
-        public IAccountState Deposit()
+        public IAccountState Deposit(Action addToBalance)
         {
             this.OnUnfreeze();
+            addToBalance();
             return new Active(OnUnfreeze);
         }
 
-        public IAccountState Withdraw()
+        public IAccountState Withdraw(Action subtractFromBalance)
         {
             this.OnUnfreeze();
+            subtractFromBalance();
             return new Active(OnUnfreeze);
         }
 

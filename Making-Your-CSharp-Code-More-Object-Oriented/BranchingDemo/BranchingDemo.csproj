@@ -45,13 +45,17 @@
   <ItemGroup>
     <Compile Include="Account.cs" />
     <Compile Include="Active.cs" />
+    <Compile Include="NotVerified.cs" />
     <Compile Include="Frozen.cs" />
     <Compile Include="IAccountState.cs" />
+    <Compile Include="Closed.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="plantUML.md" />
+    <None Include="readme.md" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

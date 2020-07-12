@@ -15,20 +15,22 @@ namespace BranchingDemo
             this.OnUnfreeze = onUnfreeze;
         }
 
-        public IAccountState Deposit() => this;
+        public IAccountState Deposit(Action addToBalance)
+        {
+            addToBalance();
+            return this;
+        }
 
-        public IAccountState Withdraw() => this;
+        public IAccountState Withdraw(Action subtractFromBalance)
+        {
+            subtractFromBalance();
+            return this;
+        }
 
         public IAccountState Freeze() => new Frozen(this.OnUnfreeze);
 
-        public IAccountState HolderVerified()
-        {
-            throw new NotImplementedException();
-        }
+        public IAccountState HolderVerified() => this;
 
-        public IAccountState Close()
-        {
-            throw new NotImplementedException();
-        }
+        public IAccountState Close() => new Closed();
     }
 }

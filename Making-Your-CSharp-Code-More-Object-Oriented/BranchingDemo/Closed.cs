@@ -8,9 +8,9 @@ namespace BranchingDemo
 {
     class Closed : IAccountState
     {
-        public IAccountState Deposit() => this;
+        public IAccountState Deposit(Action addToBalance) => this;
 
-        public IAccountState Withdraw() => this;
+        public IAccountState Withdraw(Action subtractFromBalance) => this;
 
         public IAccountState Freeze() => this;
 
