@@ -13,7 +13,7 @@ namespace BranchingDemo
         private bool IsVarified { get; set;}
         private bool IsClosed { get; set; }
 
-        private IFreezable Freezable { get; set; }
+        private IAccountState Freezable { get; set; }
 
         public Account(Action onUnfreeze)
         {

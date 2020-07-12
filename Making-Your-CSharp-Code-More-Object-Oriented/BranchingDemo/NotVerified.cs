@@ -6,27 +6,26 @@ using System.Threading.Tasks;
 
 namespace BranchingDemo
 {
-    class Active : IAccountState
+    class NotVerified : IAccountState
     {
-        private Action OnUnfreeze { get; }
+        public IAccountState Close() => new Closed();
 
-        public Active(Action onUnfreeze)
+        public IAccountState Deposit()
         {
-            this.OnUnfreeze = onUnfreeze;
+            throw new NotImplementedException();
         }
 
-        public IAccountState Deposit() => this;
-
-        public IAccountState Withdraw() => this;
-
-        public IAccountState Freeze() => new Frozen(this.OnUnfreeze);
+        public IAccountState Freeze()
+        {
+            throw new NotImplementedException();
+        }
 
         public IAccountState HolderVerified()
         {
             throw new NotImplementedException();
         }
 
-        public IAccountState Close()
+        public IAccountState Withdraw()
         {
             throw new NotImplementedException();
         }
