@@ -2,7 +2,7 @@
 ```plantuml
 @startuml
 
-package "Account domain" #DDDDDD {
+package "Composite domain" #DDDDDD {
 
     class Component {
         void Operation()
@@ -18,7 +18,7 @@ package "Account domain" #DDDDDD {
 
     Component <|-- Composite
     Component <|-- Leaf
-    Component <--o Composite
+    Component "1" <--o "*" Composite : aggregation
 
 }
 @enduml
