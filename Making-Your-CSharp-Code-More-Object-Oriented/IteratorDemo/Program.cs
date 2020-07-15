@@ -28,7 +28,7 @@ namespace IteratorDemo
             return cheapest;
         }
 
-        private static IPainter FindCheapestPainterBetter(double sqMeters, IEnumerable<IPainter> painters)
+        private static IPainter FindCheapestPainter(double sqMeters, IEnumerable<IPainter> painters)
         {
             // Yields O(NlogN) running time.
             /*
@@ -51,6 +51,14 @@ namespace IteratorDemo
                 painters
                     .Where(painter => painter.IsAvailable)
                     .WithMinimum(painter => painter.EstimateCompensation(sqMeters));
+        }
+
+        private static IPainter FindFastestPainter(double sqMeters, IEnumerable<IPainter> painters)
+        {
+            return 
+                painters
+                    .Where(painter => painter.IsAvailable)
+                    .WithMinimum(painter => painter.EstimateTimeToPaint(sqMeters));
         }
 
         static void Main(string[] args)
