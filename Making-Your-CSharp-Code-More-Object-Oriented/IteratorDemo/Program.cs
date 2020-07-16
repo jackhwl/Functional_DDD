@@ -61,7 +61,7 @@ namespace IteratorDemo
                     .WithMinimum(painter => painter.EstimateTimeToPaint(sqMeters));
         }
 
-        private static void WorkTogether(double sqMeters, IEnumerable<IPainter> painters) 
+        private static IPainter WorkTogether(double sqMeters, IEnumerable<IPainter> painters) 
         {
             TimeSpan time = 
                 TimeSpan.FromHours(
@@ -77,6 +77,12 @@ namespace IteratorDemo
                                 painter.EstimateCompensation(sqMeters) / 
                                 painter.EstimateTimeToPaint(sqMeters).TotalHours * time.TotalHours)
                             .Sum();
+
+            return new ProportionalPainter()
+            {
+                TimePerSqMeter = TimeSpan.FromHours(time.TotalHours/sqMeters),
+                DollarsPerHour = cost/time.TotalHours
+            };
         }
 
         static void Main(string[] args)
