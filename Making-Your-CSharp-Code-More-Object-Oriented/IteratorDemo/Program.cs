@@ -28,38 +28,11 @@ namespace IteratorDemo
             return cheapest;
         }
 
-        private static IPainter FindCheapestPainter(double sqMeters, IEnumerable<IPainter> painters)
-        {
-            // Yields O(NlogN) running time.
-            /*
-                return 
-                    painters
-                        .Where(painter => painter.IsAvailable)
-                        .OrderBy(painter => painters.EstimateCompensation(sqMeters))
-                        .FirstOrDefault();
-            */
+        private static IPainter FindCheapestPainter(double sqMeters, Painters painters) =>
+            painters.GetAvailable().GetCheapestOne(sqMeters);
 
-            // Yields O(N) running time.
-            //return 
-            //    painters
-            //        .Where(painter => painters.IsAvailable)
-            //        .Aggregate((best, cur) => 
-            //            best.EstimateCompensation(sqMeters)) < cur.EstimateCompensation(sqMeters)) ?
-            //            best : cur);
-
-            return 
-                painters
-                    .Where(painter => painter.IsAvailable)
-                    .WithMinimum(painter => painter.EstimateCompensation(sqMeters));
-        }
-
-        private static IPainter FindFastestPainter(double sqMeters, IEnumerable<IPainter> painters)
-        {
-            return 
-                painters
-                    .Where(painter => painter.IsAvailable)
-                    .WithMinimum(painter => painter.EstimateTimeToPaint(sqMeters));
-        }
+        private static IPainter FindFastestPainter(double sqMeters, Painters painters) =>
+            painters.GetAvailable().GetFastestOne(sqMeters);
 
         private static IPainter WorkTogether(double sqMeters, IEnumerable<IPainter> painters) 
         {
