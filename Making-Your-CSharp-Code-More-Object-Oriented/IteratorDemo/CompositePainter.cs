@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace IteratorDemo
 {
-    class CompositePainting<TPainter> : IPainter where TPainter : IPainter
+    class CompositePainter<TPainter> : IPainter where TPainter : IPainter
     {
         public bool IsAvailable => this.Painters.Any(painter => painter.IsAvailable);
 
@@ -14,7 +14,7 @@ namespace IteratorDemo
 
         private Func<double, IEnumerable<TPainter>, IPainter> Reduce { get; }
 
-        public CompositePainting(IEnumerable<TPainter> painters, Func<double, IEnumerable<TPainter>, IPainter> reduce)
+        public CompositePainter(IEnumerable<TPainter> painters, Func<double, IEnumerable<TPainter>, IPainter> reduce)
         {
             this.Painters = painters.ToList();
             this.Reduce = reduce;

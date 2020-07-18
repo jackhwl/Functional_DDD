@@ -28,14 +28,17 @@ namespace IteratorDemo
             return cheapest;
         }
 
-        private static IPainter FindCheapestPainter(double sqMeters, Painters painters) =>
-            painters.GetAvailable().GetCheapestOne(sqMeters);
+        //private static IPainter FindCheapestPainter(double sqMeters, Painters painters) =>
+        //    painters.GetAvailable().GetCheapestOne(sqMeters);
 
-        private static IPainter FindFastestPainter(double sqMeters, Painters painters) =>
-            painters.GetAvailable().GetFastestOne(sqMeters);
+        //private static IPainter FindFastestPainter(double sqMeters, Painters painters) =>
+        //    painters.GetAvailable().GetFastestOne(sqMeters);
 
         static void Main(string[] args)
         {
+            IEnumerable<ProportionalPainter> painters = new ProportionalPainter[10];
+
+            IPainter painter = CompositePainterFactories.CreateFastestSelector(painters);
         }
     }
 }
