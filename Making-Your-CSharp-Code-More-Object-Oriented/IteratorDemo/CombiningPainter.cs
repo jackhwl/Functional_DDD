@@ -8,21 +8,23 @@ namespace IteratorDemo
 {
     class CombiningPainter : CompositePainter<ProportionalPainter>
     {
-        public CombiningPainter(IEnumerable<ProportionalPainter> painters) : base(painters)
+        private Func<double, IEnumerable<IPainter>, IEnumerable<Tuple<IPainter, double>>> ScheduleWork { get; }
+        public CombiningPainter(IEnumerable<IPainter> painters,
+            Func<double, IEnumerable<IPainter>, IEnumerable<Tuple<IPainter, double>>> scheduler) : base(painters)
         {
             base.Reduce = this.Combine;
+            this.ScheduleWork = scheduler;
         }
 
         private IPainter Combine(double sqMeters, IEnumerable<IPainter> painters)
         {
-            TimeSpan time = EstimateTime(sqMeters, painters);
+            IEnumerable<IPainter> availablePainters = painters.Where(painter => painter.IsAvailable);
 
-            double cost = painters
-                            .Where(painter => painter.IsAvailable)
-                            .Select(painter =>
-                                painter.EstimateCompensation(sqMeters) /
-                                painter.EstimateTimeToPaint(sqMeters).TotalHours * time.TotalHours)
-                            .Sum();
+            IEnumerable<Tuple<IPainter, double>> schedule = this.ScheduleWork(sqMeters, availablePainters);
+
+            TimeSpan time = schedule.Max(tuple => tuple.Item1.EstimateTimeToPaint(tuple.Item2));
+
+            double cost = schedule.Sum(tuple => tuple.Item1.EstimateCompensation(tuple.Item2));
 
             return new ProportionalPainter()
             {
@@ -30,16 +32,5 @@ namespace IteratorDemo
                 DollarsPerHour = cost / time.TotalHours
             };
         }
-
-        public Func<double, IEnumerable<IPainter>, TimeSpan> EstimateTime { get; set; }
-        //private static TimeSpan EstimateTime(double sqMeters, IEnumerable<IPainter> painters)
-        //{
-        //    return TimeSpan.FromHours(
-        //                                1 /
-        //                                painters
-        //                                .Where(painter => painter.IsAvailable)
-        //                                .Select(painter => 1 / painter.EstimateTimeToPaint(sqMeters).TotalHours)
-        //                                .Sum());
-        //}
     }
 }
