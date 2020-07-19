@@ -56,6 +56,7 @@
     <None Include="App.config" />
     <None Include="plantUML.md" />
     <None Include="readme.md" />
+    <None Include="StatePattern.md" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
