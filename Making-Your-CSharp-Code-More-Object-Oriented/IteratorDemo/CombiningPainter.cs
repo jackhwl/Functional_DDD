@@ -6,25 +6,24 @@ using System.Threading.Tasks;
 
 namespace IteratorDemo
 {
-    class CombiningPainter : CompositePainter<ProportionalPainter>
+    class CombiningPainter<TPainter> : CompositePainter<TPainter> where TPainter : IPainter
     {
-        private Func<double, IEnumerable<IPainter>, IEnumerable<Tuple<IPainter, double>>> ScheduleWork { get; }
-        public CombiningPainter(IEnumerable<IPainter> painters,
-            Func<double, IEnumerable<IPainter>, IEnumerable<Tuple<IPainter, double>>> scheduler) : base(painters)
+        private IPaintingScheduler<TPainter> Scheduler { get; }
+        public CombiningPainter(IEnumerable<TPainter> painters, IPaintingScheduler<TPainter> scheduler) : base(painters)
         {
             base.Reduce = this.Combine;
-            this.ScheduleWork = scheduler;
+            this.Scheduler = scheduler;
         }
 
-        private IPainter Combine(double sqMeters, IEnumerable<IPainter> painters)
+        private IPainter Combine(double sqMeters, IEnumerable<TPainter> painters)
         {
-            IEnumerable<IPainter> availablePainters = painters.Where(painter => painter.IsAvailable);
+            IEnumerable<TPainter> availablePainters = painters.Where(painter => painter.IsAvailable);
 
-            IEnumerable<Tuple<IPainter, double>> schedule = this.ScheduleWork(sqMeters, availablePainters);
+            IEnumerable<PaintingTask<TPainter>> schedule = this.Scheduler.Schedule(sqMeters, availablePainters);
 
-            TimeSpan time = schedule.Max(tuple => tuple.Item1.EstimateTimeToPaint(tuple.Item2));
+            TimeSpan time = schedule.Max(task => task.Painter.EstimateTimeToPaint(task.SquareMeters));
 
-            double cost = schedule.Sum(tuple => tuple.Item1.EstimateCompensation(tuple.Item2));
+            double cost = schedule.Sum(task => task.Painter.EstimateCompensation(task.SquareMeters));
 
             return new ProportionalPainter()
             {
