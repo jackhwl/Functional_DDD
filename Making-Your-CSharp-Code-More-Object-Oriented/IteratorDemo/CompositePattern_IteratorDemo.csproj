@@ -48,7 +48,9 @@
     <Compile Include="CompositePainter.cs" />
     <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="IPainter.cs" />
+    <Compile Include="IPaintingScheduler.cs" />
     <Compile Include="Painters.cs" />
+    <Compile Include="PaintingTask.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProportionalPainter.cs" />
