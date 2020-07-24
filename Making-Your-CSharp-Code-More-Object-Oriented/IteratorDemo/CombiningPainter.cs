@@ -23,7 +23,7 @@ namespace IteratorDemo
 
             TimeSpan time = schedule.Max(task => task.Painter.EstimateTimeToPaint(task.SquareMeters));
 
-            double cost = schedule.Sum(task => task.Painter.EstimateCompensation(task.SquareMeters));
+            double cost = schedule.Sum(task => task.Painter.EstimateCompensation(task.SquareMeters ));
 
             return new ProportionalPainter()
             {

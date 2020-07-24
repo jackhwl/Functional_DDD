@@ -38,7 +38,7 @@ namespace IteratorDemo
         {
             IEnumerable<ProportionalPainter> painters = new ProportionalPainter[10];
 
-            IPainter painter = CompositePainterFactories.CreateFastestSelector(painters);
+            IPainter painter = CompositePainterFactories.CombineProportional(painters);
         }
     }
 }
