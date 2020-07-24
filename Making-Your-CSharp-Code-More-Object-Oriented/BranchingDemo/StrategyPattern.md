@@ -2,7 +2,7 @@
 ```plantuml
 @startuml
 
-package "Account domain" #DDDDDD {
+package "Client domain" #DDDDDD {
     class Client {
         IBehavior behavior
         void execute()
