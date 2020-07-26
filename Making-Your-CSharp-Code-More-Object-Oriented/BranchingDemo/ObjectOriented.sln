@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StatePattern_BranchingDemo"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompositePattern_IteratorDemo", "..\IteratorDemo\CompositePattern_IteratorDemo.csproj", "{9F52E5F0-4528-405F-88B4-5648F47F0984}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ValueObjectsDemo", "..\ValueObjectsDemo\ValueObjectsDemo.csproj", "{8D02E586-44E7-4787-9B0D-07D537E09D5E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{9F52E5F0-4528-405F-88B4-5648F47F0984}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9F52E5F0-4528-405F-88B4-5648F47F0984}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9F52E5F0-4528-405F-88B4-5648F47F0984}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D02E586-44E7-4787-9B0D-07D537E09D5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D02E586-44E7-4787-9B0D-07D537E09D5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D02E586-44E7-4787-9B0D-07D537E09D5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D02E586-44E7-4787-9B0D-07D537E09D5E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
