@@ -11,18 +11,14 @@ namespace ValueObjectsDemo
         static bool IsHappyHour { get; set; }
         static MoneyAmount Reserve(MoneyAmount cost)
         {
-            MoneyAmount newCost = cost;
+            decimal factor = 1;
             if (IsHappyHour)
             {
-                newCost = new MoneyAmount()
-                {
-                    Amount = cost.Amount * .5M,
-                    CurrencySymbol = cost.CurrencySymbol
-                };
+                factor = .5M;
             }
             Console.WriteLine("\nReserving an item that costs {0}.", cost);
 
-            return newCost;
+            return cost.Scale(factor);
         }
         static void Buy(MoneyAmount wallet, MoneyAmount cost)
         {
@@ -42,14 +38,14 @@ namespace ValueObjectsDemo
 
         static void Main(string[] args)
         {
-            Buy(new MoneyAmount() { Amount = 12, CurrencySymbol = "USD"},
-                new MoneyAmount() { Amount = 10, CurrencySymbol = "USD" });
-            Buy(new MoneyAmount() { Amount = 7, CurrencySymbol = "USD" },
-                new MoneyAmount() { Amount = 10, CurrencySymbol = "USD" });
+            Buy(new MoneyAmount(12, "USD"),
+                new MoneyAmount(10, "USD"));
+            Buy(new MoneyAmount(7, "USD"),
+                new MoneyAmount(10, "USD"));
 
             IsHappyHour = true;
-            Buy(new MoneyAmount() { Amount = 7, CurrencySymbol = "USD" },
-                new MoneyAmount() { Amount = 10, CurrencySymbol = "USD" });
+            Buy(new MoneyAmount(7, "USD"),
+                new MoneyAmount(10, "USD"));
 
             Console.ReadLine();
         }
