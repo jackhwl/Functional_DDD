@@ -26,6 +26,8 @@ namespace ValueObjectsDemo
         private bool Equals(MoneyAmount other) => 
             other != null && 
             this.Amount == other.Amount && 
-            this.CurrencySymbol == other.CurrencySymbol;  
+            this.CurrencySymbol == other.CurrencySymbol;
+
+        public override int GetHashCode() => this.Amount.GetHashCode() ^ this.CurrencySymbol.GetHashCode();
     }
 }
