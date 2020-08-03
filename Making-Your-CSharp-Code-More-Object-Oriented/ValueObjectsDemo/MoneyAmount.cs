@@ -20,5 +20,12 @@ namespace ValueObjectsDemo
             new MoneyAmount(this.Amount * factor, this.CurrencySymbol);
 
         public override string ToString() => $"{this.Amount} {this.CurrencySymbol}";
+
+        public override bool Equals(object obj) => this.Equals(obj as MoneyAmount);
+
+        private bool Equals(MoneyAmount other) => 
+            other != null && 
+            this.Amount == other.Amount && 
+            this.CurrencySymbol == other.CurrencySymbol;  
     }
 }
