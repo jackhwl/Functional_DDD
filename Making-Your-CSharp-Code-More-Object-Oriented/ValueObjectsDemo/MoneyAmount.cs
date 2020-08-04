@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ValueObjectsDemo
 {
-    class MoneyAmount : IEquatable<MoneyAmount> 
+    sealed class MoneyAmount : IEquatable<MoneyAmount> 
     {
         public decimal Amount { get; }
         public string CurrencySymbol { get; }
