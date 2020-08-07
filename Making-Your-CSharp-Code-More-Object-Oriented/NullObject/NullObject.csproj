@@ -43,10 +43,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IWarranty.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SoldArticle.cs" />
-    <Compile Include="Warranty.cs" />
+    <Compile Include="VoidWarranty.cs" />
+    <Compile Include="TimeLimitedWarranty.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

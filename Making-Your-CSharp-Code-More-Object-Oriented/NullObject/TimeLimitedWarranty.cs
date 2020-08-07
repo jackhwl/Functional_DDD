@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace NullObject
 {
-    class Warranty
+    class TimeLimitedWarranty : IWarranty
     {
         private DateTime DateIssued { get; }
         private TimeSpan Duration { get; }
 
-        public Warranty(DateTime dateIssued, TimeSpan duration)
+        public TimeLimitedWarranty(DateTime dateIssued, TimeSpan duration)
         {
             this.DateIssued = dateIssued.Date;
             this.Duration = TimeSpan.FromDays(duration.Days);
