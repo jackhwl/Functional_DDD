@@ -32,7 +32,8 @@ namespace NullObject
             IWarranty warranty = new TimeLimitedWarranty(sellingDate, warrantySpan);
 
             //IWarranty noMoneyBack = VoidWarranty.Instance;
-            SoldArticle goods = new SoldArticle(VoidWarranty.Instance, warranty);
+            IWarranty lifetimeWarranty = new LifetimeWarranty(sellingDate);
+            SoldArticle goods = new SoldArticle(VoidWarranty.Instance, lifetimeWarranty);
 
             ClaimWarranty(goods);
 
