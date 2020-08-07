@@ -8,24 +8,35 @@ namespace NullObject
 {
     class Program
     {
-        static void ClaimWarranty(SoldArticle article, bool isInGoodCondition, bool isBroken)
+        static void ClaimWarranty(SoldArticle article)
         {
             DateTime now = DateTime.Now;
 
-            if (isInGoodCondition && !isBroken && 
-                article.MoneyBackGuarantee != null &&
-                article.MoneyBackGuarantee.IsValidOn(now))
+            if (article.MoneyBackGuarantee.IsValidOn(now))
             {
                 Console.WriteLine("Offer money back.");
             }
 
-            if (isBroken && article.ExpressWarranty != null && article.ExpressWarranty.IsValidOn(now))
+            if (article.ExpressWarranty.IsValidOn(now))
             {
                 Console.WriteLine("Offer repair.");
             }
         }
         static void Main(string[] args)
         {
+            DateTime sellingDate = new DateTime(2020, 8, 6);
+            TimeSpan moneyBackSpan = TimeSpan.FromDays(30);
+            TimeSpan warrantySpan = TimeSpan.FromDays(365);
+
+            IWarranty moneyBack = new TimeLimitedWarranty(sellingDate, moneyBackSpan);
+            IWarranty warranty = new TimeLimitedWarranty(sellingDate, warrantySpan);
+
+            //IWarranty noMoneyBack = VoidWarranty.Instance;
+            SoldArticle goods = new SoldArticle(VoidWarranty.Instance, warranty);
+
+            ClaimWarranty(goods);
+
+            Console.ReadLine();
         }
     }
 }
