@@ -23,6 +23,12 @@ namespace NullObject
             }
         }
 
-        public bool IsValidOn(DateTime date) => false;
+        public void Claim(DateTime onDate, Action onValidClaim)
+        {
+            if (!this.IsValidOn(onDate))
+                return;
+            onValidClaim();
+        }
+        private bool IsValidOn(DateTime date) => false;
     }
 }

@@ -14,7 +14,6 @@ namespace NullObject
         {
             this.IssuingDate = issuingDate.Date;
         }
-
-        public bool IsValidOn(DateTime date) => date.Date >= this.IssuingDate;
+        public void Claim(DateTime onDate, Action onValidClaim) { }
     }
 }

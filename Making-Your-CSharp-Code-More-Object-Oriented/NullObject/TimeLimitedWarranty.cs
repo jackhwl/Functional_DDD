@@ -17,7 +17,14 @@ namespace NullObject
             this.Duration = TimeSpan.FromDays(duration.Days);
         }
 
-        public bool IsValidOn(DateTime date) => 
+        public void Claim(DateTime onDate, Action onValidClaim)
+        {
+            if (!this.IsValidOn(onDate))
+                return;
+            onValidClaim();
+        }
+
+        private bool IsValidOn(DateTime date) => 
             date.Date >= this.DateIssued && date.Date < this.DateIssued + this.Duration;
     }
 }

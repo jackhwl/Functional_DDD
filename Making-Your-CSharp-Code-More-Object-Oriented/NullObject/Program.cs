@@ -12,15 +12,9 @@ namespace NullObject
         {
             DateTime now = DateTime.Now;
 
-            if (article.MoneyBackGuarantee.IsValidOn(now))
-            {
-                Console.WriteLine("Offer money back.");
-            }
+            article.MoneyBackGuarantee.Claim(now, () => Console.WriteLine("Offer money back."));
 
-            if (article.ExpressWarranty.IsValidOn(now))
-            {
-                Console.WriteLine("Offer repair.");
-            }
+            article.ExpressWarranty.Claim(now, () => Console.WriteLine("Offer repair."));
         }
         static void Main(string[] args)
         {
@@ -31,7 +25,7 @@ namespace NullObject
             IWarranty moneyBack = new TimeLimitedWarranty(sellingDate, moneyBackSpan);
             IWarranty warranty = new TimeLimitedWarranty(sellingDate, warrantySpan);
 
-            //IWarranty noMoneyBack = VoidWarranty.Instance;
+             //IWarranty noMoneyBack = VoidWarranty.Instance;
             IWarranty lifetimeWarranty = new LifetimeWarranty(sellingDate);
             SoldArticle goods = new SoldArticle(VoidWarranty.Instance, lifetimeWarranty);
 
