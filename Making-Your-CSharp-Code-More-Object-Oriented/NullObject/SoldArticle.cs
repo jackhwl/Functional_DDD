@@ -16,6 +16,7 @@ namespace NullObject
         private Part Circuitry { get; set; }
         private IWarranty FailedCircuitryWarranty { get; set; }
         private IWarranty CircuitryWarranty { get; set; }
+
         public SoldArticle(IWarranty moneyBack, IWarranty express)
         {
             if (moneyBack == null)
@@ -40,12 +41,21 @@ namespace NullObject
             this.ExpressWarranty = this.NotOperationalWarranty;
         }
 
-        private Part Circuitry { get; set; }
-        private IWarranty FailedCircuitryWarranty { get; set; }
-        public  void InstallCircuitry(Part circuitry, IWarranty extendedWarranty)
+        public void CircuitryNotOperational(DateTime detectedOn)
+        {
+            this.Circuitry.MarkDefective(detectedOn);
+            this.CircuitryWarranty = this.FailedCircuitryWarranty;
+        }
+
+        public void InstallCircuitry(Part circuitry, IWarranty extendedWarranty)
         {
             this.Circuitry = circuitry;
             this.FailedCircuitryWarranty = extendedWarranty;
+        }
+
+        public void ClaimCircuitryWarranty(Action onValidClaim)
+        {
+            this.CircuitryWarranty.Claim(this.Circuitry.DefectDetectedOn, onValidClaim);
         }
     }
 }
