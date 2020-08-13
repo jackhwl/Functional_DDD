@@ -43,8 +43,11 @@ namespace NullObject
 
         public void CircuitryNotOperational(DateTime detectedOn)
         {
-            this.Circuitry.MarkDefective(detectedOn);
-            this.CircuitryWarranty = this.FailedCircuitryWarranty;
+            if (this.Circuitry != null)
+            {
+                this.Circuitry.MarkDefective(detectedOn);
+                this.CircuitryWarranty = this.FailedCircuitryWarranty;
+            }
         }
 
         public void InstallCircuitry(Part circuitry, IWarranty extendedWarranty)
@@ -55,7 +58,10 @@ namespace NullObject
 
         public void ClaimCircuitryWarranty(Action onValidClaim)
         {
-            this.CircuitryWarranty.Claim(this.Circuitry.DefectDetectedOn, onValidClaim);
+            if (this.Circuitry != null)
+            {
+                this.CircuitryWarranty.Claim(this.Circuitry.DefectDetectedOn, onValidClaim);
+            }
         }
     }
 }
