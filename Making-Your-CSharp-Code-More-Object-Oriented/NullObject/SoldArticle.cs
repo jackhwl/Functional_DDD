@@ -13,7 +13,7 @@ namespace NullObject
 
         public IWarranty NotOperationalWarranty { get; }
         
-        private Part Circuitry { get; set; }
+        private List<Part> Circuitry { get; set; } = new List<Part>();
         private IWarranty FailedCircuitryWarranty { get; set; }
         private IWarranty CircuitryWarranty { get; set; }
 
@@ -43,25 +43,22 @@ namespace NullObject
 
         public void CircuitryNotOperational(DateTime detectedOn)
         {
-            if (this.Circuitry != null)
-            {
-                this.Circuitry.MarkDefective(detectedOn);
+            this.Circuitry.ForEach(circuitry => { 
+                circuitry.MarkDefective(detectedOn);
                 this.CircuitryWarranty = this.FailedCircuitryWarranty;
-            }
+            });
         }
 
         public void InstallCircuitry(Part circuitry, IWarranty extendedWarranty)
         {
-            this.Circuitry = circuitry;
+            this.Circuitry = new List<Part>(){ circuitry };
             this.FailedCircuitryWarranty = extendedWarranty;
         }
 
         public void ClaimCircuitryWarranty(Action onValidClaim)
         {
-            if (this.Circuitry != null)
-            {
-                this.CircuitryWarranty.Claim(this.Circuitry.DefectDetectedOn, onValidClaim);
-            }
+            this.Circuitry.ForEach(circuitry => 
+                this.CircuitryWarranty.Claim(circuitry.DefectDetectedOn, onValidClaim));
         }
     }
 }
