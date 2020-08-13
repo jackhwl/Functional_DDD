@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NullObject.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,7 +14,7 @@ namespace NullObject
 
         public IWarranty NotOperationalWarranty { get; }
         
-        private List<Part> Circuitry { get; set; } = new List<Part>();
+        private Option<Part> Circuitry { get; set; } = Option<Part>.None();
         private IWarranty FailedCircuitryWarranty { get; set; }
         private IWarranty CircuitryWarranty { get; set; }
 
@@ -43,7 +44,7 @@ namespace NullObject
 
         public void CircuitryNotOperational(DateTime detectedOn)
         {
-            this.Circuitry.ForEach(circuitry => { 
+            this.Circuitry.ToList().ForEach(circuitry => { 
                 circuitry.MarkDefective(detectedOn);
                 this.CircuitryWarranty = this.FailedCircuitryWarranty;
             });
@@ -51,13 +52,13 @@ namespace NullObject
 
         public void InstallCircuitry(Part circuitry, IWarranty extendedWarranty)
         {
-            this.Circuitry = new List<Part>(){ circuitry };
+            this.Circuitry = Option<Part>.Some(circuitry);
             this.FailedCircuitryWarranty = extendedWarranty;
         }
 
         public void ClaimCircuitryWarranty(Action onValidClaim)
         {
-            this.Circuitry.ForEach(circuitry => 
+            this.Circuitry.ToList().ForEach(circuitry => 
                 this.CircuitryWarranty.Claim(circuitry.DefectDetectedOn, onValidClaim));
         }
     }

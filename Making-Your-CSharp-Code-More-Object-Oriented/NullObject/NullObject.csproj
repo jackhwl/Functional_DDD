@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\Option.cs" />
     <Compile Include="IWarranty.cs" />
     <Compile Include="LifetimeWarranty.cs" />
     <Compile Include="Part.cs" />
@@ -55,5 +56,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
