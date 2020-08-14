@@ -44,7 +44,7 @@ namespace NullObject
 
         public void CircuitryNotOperational(DateTime detectedOn)
         {
-            this.Circuitry.ToList().ForEach(circuitry => { 
+            this.Circuitry.Do(circuitry => { 
                 circuitry.MarkDefective(detectedOn);
                 this.CircuitryWarranty = this.FailedCircuitryWarranty;
             });
@@ -58,7 +58,7 @@ namespace NullObject
 
         public void ClaimCircuitryWarranty(Action onValidClaim)
         {
-            this.Circuitry.ToList().ForEach(circuitry => 
+            this.Circuitry.Do(circuitry => 
                 this.CircuitryWarranty.Claim(circuitry.DefectDetectedOn, onValidClaim));
         }
     }

@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\Option.cs" />
+    <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="IWarranty.cs" />
     <Compile Include="LifetimeWarranty.cs" />
     <Compile Include="Part.cs" />
