@@ -32,21 +32,23 @@ namespace NullObject
             this.ExpressWarranty = VoidWarranty.Instance;
             this.NotOperationalWarranty = express;
             this.CircuitryWarranty = VoidWarranty.Instance;
+
+            this.OperationalStatus = DeviceStatus.AllFine();
         }
 
         public void VisibleDamage()
         {
-            this.OperationalStatus |= DeviceStatus.VisiblyDamaged;
+            this.OperationalStatus = this.OperationalStatus.WithVisibleDamage();
         }
 
         public void NotOperational()
         {
-            this.OperationalStatus |= DeviceStatus.NotOperational;
+            this.OperationalStatus = this.OperationalStatus.NotOperational();
         }
 
         public void Repaired()
         {
-            this.OperationalStatus &= ~DeviceStatus.NotOperational;
+            this.OperationalStatus = this.OperationalStatus.Repaired();
         }
 
         public void CircuitryNotOperational(DateTime detectedOn)
@@ -61,6 +63,7 @@ namespace NullObject
         {
             this.Circuitry = Option<Part>.Some(circuitry);
             this.FailedCircuitryWarranty = extendedWarranty;
+            this.OperationalStatus = this.OperationalStatus.CircuitryReplaced();
         }
 
         public void ClaimCircuitryWarranty(Action onValidClaim)
