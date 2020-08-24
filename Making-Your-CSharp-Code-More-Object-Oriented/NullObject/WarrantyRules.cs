@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace NullObject
 {
-    static class WarrantyRules
+    class CommonWarrantyRules : IWarrantyMapFactory
     {
-        public static IReadOnlyDictionary<DeviceStatus, Action<Action>> GetCommonRule(
+        public IReadOnlyDictionary<DeviceStatus, Action<Action>> Create(
             Action<Action> claimMoneyBack, 
             Action<Action> claimNotOperational, 
             Action<Action> claimCircuitry) => new Dictionary<DeviceStatus, Action<Action>>()
