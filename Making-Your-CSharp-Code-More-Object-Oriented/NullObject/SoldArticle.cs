@@ -17,6 +17,8 @@ namespace NullObject
         private Option<Part> Circuitry { get; set; } = Option<Part>.None();
 
         private DeviceStatus OperationalStatus { get; set; }
+        private IReadOnlyDictionary<DeviceStatus, Action<Action>> WarrantyMap { get; }
+
 
         private IWarranty FailedCircuitryWarranty { get; set; }
         private IWarranty CircuitryWarranty { get; set; }
@@ -34,8 +36,22 @@ namespace NullObject
             this.CircuitryWarranty = VoidWarranty.Instance;
 
             this.OperationalStatus = DeviceStatus.AllFine();
+            this.WarrantyMap = this.InitializeWarrantyMap();
         }
 
+        private IReadOnlyDictionary<DeviceStatus, Action<Action>> InitializeWarrantyMap() =>
+            new Dictionary<DeviceStatus, Action<Action>>()
+            {
+                [DeviceStatus.AllFine()] = this.ClaimMoneyBack,
+                [DeviceStatus.AllFine().NotOperational()] = this.ClaimNotOperationalWarranty,
+                [DeviceStatus.AllFine().WithVisibleDamage()] = (action) => { },
+                [DeviceStatus.AllFine().NotOperational().WithVisibleDamage()] = this.ClaimNotOperationalWarranty,
+                [DeviceStatus.AllFine().CircuitryFailed()] = this.ClaimCircuitryWarranty,
+                [DeviceStatus.AllFine().NotOperational().CircuitryFailed()] = this.ClaimNotOperationalWarranty,
+                [DeviceStatus.AllFine().CircuitryFailed().WithVisibleDamage()] = this.ClaimCircuitryWarranty,
+                [DeviceStatus.AllFine().WithVisibleDamage()] = (action) => { },
+                [DeviceStatus.AllFine().NotOperational().WithVisibleDamage().CircuitryFailed()] = this.ClaimNotOperationalWarranty
+            };
         public void VisibleDamage()
         {
             this.OperationalStatus = this.OperationalStatus.WithVisibleDamage();
@@ -76,7 +92,5 @@ namespace NullObject
         {
             this.WarrantyMap[this.OperationalStatus].Invoke(onValidClaim);
         }
-
-        private IReadOnlyDictionary<DeviceStatus, Action<Action>> WarrantyMap { get; }
     }
 }

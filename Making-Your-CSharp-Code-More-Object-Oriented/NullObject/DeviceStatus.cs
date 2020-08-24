@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NullObject
 {
-    class DeviceStatus
+    sealed class DeviceStatus : IEquatable<DeviceStatus>
     {
         [Flags]
         private enum StatusRepresentation
@@ -30,5 +30,17 @@ namespace NullObject
         public DeviceStatus Repaired() => new DeviceStatus(this.Representation & ~StatusRepresentation.NotOperational);
         public DeviceStatus CircuitryFailed() => new DeviceStatus(this.Representation | StatusRepresentation.CircuitryFailed);
         public DeviceStatus CircuitryReplaced() => new DeviceStatus(this.Representation & ~StatusRepresentation.CircuitryFailed);
+
+        public override int GetHashCode() => (int)this.Representation;
+
+        public override bool Equals(object obj) => this.Equals(obj as DeviceStatus);
+
+        public bool Equals(DeviceStatus other) => other != null && this.Representation == other.Representation;
+        
+        public static bool operator ==(DeviceStatus a, DeviceStatus b) => 
+            (object.ReferenceEquals(a, null) && object.ReferenceEquals(b, null)) ||
+            (!object.ReferenceEquals(a, null) && a.Equals(b));
+
+        public static bool operator !=(DeviceStatus a, DeviceStatus b) => !(a==b);
     }
 }
