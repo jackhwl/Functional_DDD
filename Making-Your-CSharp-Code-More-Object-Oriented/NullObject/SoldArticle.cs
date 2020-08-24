@@ -23,7 +23,9 @@ namespace NullObject
         private IWarranty FailedCircuitryWarranty { get; set; }
         private IWarranty CircuitryWarranty { get; set; }
 
-        public SoldArticle(IWarranty moneyBack, IWarranty express)
+        public SoldArticle(IWarranty moneyBack, IWarranty express,
+            Func<Action<Action>, Action<Action>, Action<Action>, 
+                IReadOnlyDictionary<DeviceStatus, Action<Action>>> rulesFactory)
         {
             if (moneyBack == null)
                 throw new ArgumentNullException(nameof(moneyBack));
@@ -36,7 +38,7 @@ namespace NullObject
             this.CircuitryWarranty = VoidWarranty.Instance;
 
             this.OperationalStatus = DeviceStatus.AllFine();
-            this.WarrantyMap = WarrantyRules.GetCommonRule(this.ClaimMoneyBack, this.ClaimNotOperationalWarranty, this.ClaimCircuitryWarranty);
+            this.WarrantyMap = rulesFactory(this.ClaimMoneyBack, this.ClaimNotOperationalWarranty, this.ClaimCircuitryWarranty);
         }
 
         private void ClaimMoneyBack(Action action)
