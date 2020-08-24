@@ -36,22 +36,17 @@ namespace NullObject
             this.CircuitryWarranty = VoidWarranty.Instance;
 
             this.OperationalStatus = DeviceStatus.AllFine();
-            this.WarrantyMap = this.InitializeWarrantyMap();
+            this.WarrantyMap = WarrantyRules.GetCommonRule(this.ClaimMoneyBack, this.ClaimNotOperationalWarranty, this.ClaimCircuitryWarranty);
         }
 
-        private IReadOnlyDictionary<DeviceStatus, Action<Action>> InitializeWarrantyMap() =>
-            new Dictionary<DeviceStatus, Action<Action>>()
-            {
-                [DeviceStatus.AllFine()] = this.ClaimMoneyBack,
-                [DeviceStatus.AllFine().NotOperational()] = this.ClaimNotOperationalWarranty,
-                [DeviceStatus.AllFine().WithVisibleDamage()] = (action) => { },
-                [DeviceStatus.AllFine().NotOperational().WithVisibleDamage()] = this.ClaimNotOperationalWarranty,
-                [DeviceStatus.AllFine().CircuitryFailed()] = this.ClaimCircuitryWarranty,
-                [DeviceStatus.AllFine().NotOperational().CircuitryFailed()] = this.ClaimNotOperationalWarranty,
-                [DeviceStatus.AllFine().CircuitryFailed().WithVisibleDamage()] = this.ClaimCircuitryWarranty,
-                [DeviceStatus.AllFine().WithVisibleDamage()] = (action) => { },
-                [DeviceStatus.AllFine().NotOperational().WithVisibleDamage().CircuitryFailed()] = this.ClaimNotOperationalWarranty
-            };
+        private void ClaimMoneyBack(Action action)
+        {
+            this.MoneyBackGuarantee.Claim(DateTime.Now, action);
+        }
+        private void ClaimNotOperationalWarranty(Action action)
+        {
+            this.NotOperationalWarranty.Claim(DateTime.Now, action);
+        }
         public void VisibleDamage()
         {
             this.OperationalStatus = this.OperationalStatus.WithVisibleDamage();
