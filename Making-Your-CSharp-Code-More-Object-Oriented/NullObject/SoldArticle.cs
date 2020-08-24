@@ -74,27 +74,9 @@ namespace NullObject
 
         public void ClaimWarranty(Action onValidClaim)
         {
-            switch (this.OperationalStatus)
-            {
-                case DeviceStatus.AllFine:
-                    this.MoneyBackGuarantee.Claim(DateTime.Now, onValidClaim);
-                    break;
-                case DeviceStatus.NotOperational:
-                case DeviceStatus.NotOperational | DeviceStatus.VisiblyDamaged:
-                case DeviceStatus.NotOperational | DeviceStatus.CircuitryFailed:
-                case DeviceStatus.NotOperational | DeviceStatus.VisiblyDamaged | DeviceStatus.CircuitryFailed:
-                    this.NotOperationalWarranty.Claim(DateTime.Now, onValidClaim);
-                    break;
-                case DeviceStatus.VisiblyDamaged:
-                    break;
-                case DeviceStatus.CircuitryFailed:
-                case DeviceStatus.VisiblyDamaged | DeviceStatus.CircuitryFailed:
-                    this.Circuitry
-                        .WhenSome()
-                        .Do(c => this.CircuitryWarranty.Claim(c.DefectDetectedOn, onValidClaim))
-                        .Execute();
-                    break;
-            }
+            this.WarrantyMap[this.OperationalStatus].Invoke(onValidClaim);
         }
+
+        private IReadOnlyDictionary<DeviceStatus, Action<Action>> WarrantyMap { get; }
     }
 }
