@@ -85,7 +85,16 @@ namespace NullObject
 
         public void ClaimWarranty(Action onValidClaim)
         {
-            this.WarrantyMap[this.OperationalStatus].Invoke(onValidClaim);
+            //this.WarrantyMap[this.OperationalStatus].Invoke(onValidClaim);
+            if (!this.IsOperational)
+                this.NotOperationalWarranty.Claim(DateTime.Now, onValidClaim);
+            else if(!this.IsCircuitryOperational)
+                this.Circuitry
+                    .WhenSome()
+                    .Do(c => this.CircuitryWarranty.Claim(c.DefectDetectedOn, onValidClaim))
+                    .Execute();
+            else if (!this.IsVisiblyDamaged)
+                this.MoneyBackGuarantee.Claim(DateTime.Now, onValidClaim);
         }
     }
 }
