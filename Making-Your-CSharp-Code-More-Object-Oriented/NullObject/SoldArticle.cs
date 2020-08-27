@@ -23,6 +23,11 @@ namespace NullObject
         private IWarranty FailedCircuitryWarranty { get; set; }
         private IWarranty CircuitryWarranty { get; set; }
 
+        private bool IsOperational { get; set; }
+        private bool IsCircuitryOperational { get; set; }
+        private bool IsVisiblyDamaged { get; set; }
+
+
         public SoldArticle(IWarranty moneyBack, IWarranty express, IWarrantyMapFactory rulesFactory)
         {
             if (moneyBack == null)
