@@ -86,15 +86,29 @@ namespace NullObject
         public void ClaimWarranty(Action onValidClaim)
         {
             //this.WarrantyMap[this.OperationalStatus].Invoke(onValidClaim);
-            if (!this.IsOperational)
+
+            bool moneyReturned = false;
+            bool isAroundChristmas = this.IsAroundChristmas();
+            if (isAroundChristmas)
+            {
+                this.MoneyBackGuarantee.Claim(DateTime.Now, () =>
+                {
+                    moneyReturned = true;
+                    onValidClaim();
+                });
+            }
+
+            if (!moneyReturned && !this.IsOperational)
                 this.NotOperationalWarranty.Claim(DateTime.Now, onValidClaim);
-            else if(!this.IsCircuitryOperational)
+            else if(!moneyReturned &&  !this.IsCircuitryOperational)
                 this.Circuitry
                     .WhenSome()
                     .Do(c => this.CircuitryWarranty.Claim(c.DefectDetectedOn, onValidClaim))
                     .Execute();
-            else if (!this.IsVisiblyDamaged)
+            else if (!isAroundChristmas && !this.IsVisiblyDamaged)
                 this.MoneyBackGuarantee.Claim(DateTime.Now, onValidClaim);
         }
+
+        private bool IsAroundChristmas() => false;
     }
 }
