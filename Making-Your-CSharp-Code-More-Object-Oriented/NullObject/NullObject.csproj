@@ -43,7 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IWarrantyRulesFactory.cs" />
     <Compile Include="IWarrantyMapFactory.cs" />
+    <Compile Include="IWarrantyRules.cs" />
     <Compile Include="WarrantyRules.cs" />
     <Compile Include="Common\Option.cs" />
     <Compile Include="DeviceStatus.cs" />

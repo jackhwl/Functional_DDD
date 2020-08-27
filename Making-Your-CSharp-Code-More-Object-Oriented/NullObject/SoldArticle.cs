@@ -23,12 +23,12 @@ namespace NullObject
         private IWarranty FailedCircuitryWarranty { get; set; }
         private IWarranty CircuitryWarranty { get; set; }
 
-        private bool IsOperational { get; set; }
-        private bool IsCircuitryOperational { get; set; }
-        private bool IsVisiblyDamaged { get; set; }
+        //private bool IsOperational { get; set; }
+        //private bool IsCircuitryOperational { get; set; }
+        //private bool IsVisiblyDamaged { get; set; }
+        private IWarrantyRules WarrantyRules { get; }
 
-
-        public SoldArticle(IWarranty moneyBack, IWarranty express, IWarrantyMapFactory rulesFactory)
+        public SoldArticle(IWarranty moneyBack, IWarranty express, IWarrantyRulesFactory rulesFactory)
         {
             if (moneyBack == null)
                 throw new ArgumentNullException(nameof(moneyBack));
@@ -41,7 +41,8 @@ namespace NullObject
             this.CircuitryWarranty = VoidWarranty.Instance;
 
             this.OperationalStatus = DeviceStatus.AllFine();
-            this.WarrantyMap = rulesFactory.Create(this.ClaimMoneyBack, this.ClaimNotOperationalWarranty, this.ClaimCircuitryWarranty);
+            //this.WarrantyMap = rulesFactory.Create(this.ClaimMoneyBack, this.ClaimNotOperationalWarranty, this.ClaimCircuitryWarranty);
+            this.WarrantyRules = rulesFactory.Create(this.ClaimMoneyBack, this.ClaimNotOperationalWarranty, this.ClaimCircuitryWarranty);
         }
 
         private void ClaimMoneyBack(Action action)
@@ -54,32 +55,37 @@ namespace NullObject
         }
         public void VisibleDamage()
         {
-            this.OperationalStatus = this.OperationalStatus.WithVisibleDamage();
+            //this.OperationalStatus = this.OperationalStatus.WithVisibleDamage();
+            this.WarrantyRules.VisiblyDamaged();
         }
 
         public void NotOperational()
         {
-            this.OperationalStatus = this.OperationalStatus.NotOperational();
+            // this.OperationalStatus = this.OperationalStatus.NotOperational();
+            this.WarrantyRules.NotOperational();
         }
 
         public void Repaired()
         {
-            this.OperationalStatus = this.OperationalStatus.Repaired();
+            //this.OperationalStatus = this.OperationalStatus.Repaired();
+            this.WarrantyRules.Operational();
         }
 
         public void CircuitryNotOperational(DateTime detectedOn)
         {
-            this.Circuitry.Do(circuitry => { 
-                circuitry.MarkDefective(detectedOn);
-                this.CircuitryWarranty = this.FailedCircuitryWarranty;
-            });
+            //this.Circuitry.Do(circuitry => { 
+            //    circuitry.MarkDefective(detectedOn);
+            //    this.CircuitryWarranty = this.FailedCircuitryWarranty;
+            //});
+            this.WarrantyRules.CircuitryFailed();
         }
 
         public void InstallCircuitry(Part circuitry, IWarranty extendedWarranty)
         {
             this.Circuitry = Option<Part>.Some(circuitry);
             this.FailedCircuitryWarranty = extendedWarranty;
-            this.OperationalStatus = this.OperationalStatus.CircuitryReplaced();
+            //this.OperationalStatus = this.OperationalStatus.CircuitryReplaced();
+            this.WarrantyRules.CircuitryOperational();
         }
 
         public void ClaimCircuitryWarranty(Action onValidClaim)
@@ -90,28 +96,29 @@ namespace NullObject
 
         public void ClaimWarranty(Action onValidClaim)
         {
+            this.WarrantyRules.Claim(onValidClaim);
             //this.WarrantyMap[this.OperationalStatus].Invoke(onValidClaim);
 
-            bool moneyReturned = false;
-            bool isAroundChristmas = this.IsAroundChristmas();
-            if (isAroundChristmas)
-            {
-                this.MoneyBackGuarantee.Claim(DateTime.Now, () =>
-                {
-                    moneyReturned = true;
-                    onValidClaim();
-                });
-            }
+            //bool moneyReturned = false;
+            //bool isAroundChristmas = this.IsAroundChristmas();
+            //if (isAroundChristmas)
+            //{
+            //    this.MoneyBackGuarantee.Claim(DateTime.Now, () =>
+            //    {
+            //        moneyReturned = true;
+            //        onValidClaim();
+            //    });
+            //}
 
-            if (!moneyReturned && !this.IsOperational)
-                this.NotOperationalWarranty.Claim(DateTime.Now, onValidClaim);
-            else if(!moneyReturned &&  !this.IsCircuitryOperational)
-                this.Circuitry
-                    .WhenSome()
-                    .Do(c => this.CircuitryWarranty.Claim(c.DefectDetectedOn, onValidClaim))
-                    .Execute();
-            else if (!isAroundChristmas && !this.IsVisiblyDamaged)
-                this.MoneyBackGuarantee.Claim(DateTime.Now, onValidClaim);
+            //if (!moneyReturned && !this.IsOperational)
+            //    this.NotOperationalWarranty.Claim(DateTime.Now, onValidClaim);
+            //else if(!moneyReturned &&  !this.IsCircuitryOperational)
+            //    this.Circuitry
+            //        .WhenSome()
+            //        .Do(c => this.CircuitryWarranty.Claim(c.DefectDetectedOn, onValidClaim))
+            //        .Execute();
+            //else if (!isAroundChristmas && !this.IsVisiblyDamaged)
+            //    this.MoneyBackGuarantee.Claim(DateTime.Now, onValidClaim);
         }
 
         private bool IsAroundChristmas() => false;
