@@ -6,32 +6,23 @@ using System.Threading.Tasks;
 
 namespace NullObject
 {
-    class NotOperationalRule : IWarrantyRules
+    class NotOperationalRule : ChainedRule, IWarrantyRules
     {
         private Action<Action> ClaimAction { get; }
-        private IWarrantyRules Next { get; }
-        private Action<Action> ClaimStrategy { get; set; }
-        public NotOperationalRule(Action<Action> claimAction, IWarrantyRules next)
+        public NotOperationalRule(Action<Action> claimAction, IWarrantyRules next) : base(next)
         {
+            base.Claim = base.Forward;
             this.ClaimAction = claimAction;
-            this.Next = next;
-        }
-        public void CircuitryOperational() { }
-        public void CircuitryFailed() { }
-        public void VisiblyDamaged() { }
-
-        public void NotOperational()
-        {
-            this.ClaimStrategy = (onValidClaim) => this.ClaimAction(onValidClaim);
         }
 
-        public void Operational()
+        public override void NotOperational()
         {
-            this.ClaimStrategy = (onValidClaim) => this.Next.Claim(onValidClaim);
+            base.Claim = this.ClaimAction;
         }
-        public void Claim(Action onValidClaim) 
+
+        public override void Operational()
         {
-            ClaimStrategy(onValidClaim);
+            base.Claim = this.Forward;
         }
     }
 }

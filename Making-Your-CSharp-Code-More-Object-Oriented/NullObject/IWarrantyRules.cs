@@ -13,6 +13,6 @@ namespace NullObject
         void VisiblyDamaged();
         void NotOperational();
         void Operational();
-        void Claim(Action onValidClaim); 
+        Action<Action> Claim { get; }
     }
 }
