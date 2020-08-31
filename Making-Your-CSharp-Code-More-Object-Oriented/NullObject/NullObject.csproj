@@ -46,8 +46,12 @@
     <Compile Include="IWarrantyRulesFactory.cs" />
     <Compile Include="IWarrantyMapFactory.cs" />
     <Compile Include="IWarrantyRules.cs" />
-    <Compile Include="ChainedRule.cs" />
-    <Compile Include="NotOperationalRule.cs" />
+    <Compile Include="Rules\DefaultRules.cs" />
+    <Compile Include="Rules\NotSatisfiedRule.cs" />
+    <Compile Include="Rules\ChainedRule.cs" />
+    <Compile Include="Rules\MoneyBackRule.cs" />
+    <Compile Include="Rules\CircuitryRule.cs" />
+    <Compile Include="Rules\NotOperationalRule.cs" />
     <Compile Include="WarrantyRules.cs" />
     <Compile Include="Common\Option.cs" />
     <Compile Include="DeviceStatus.cs" />

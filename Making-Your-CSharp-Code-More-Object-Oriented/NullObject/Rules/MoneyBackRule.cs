@@ -6,21 +6,21 @@ using System.Threading.Tasks;
 
 namespace NullObject
 {
-    class NotOperationalRule : ChainedRule, IWarrantyRules
+    class CircuitryRule : ChainedRule
     {
         private Action<Action> ClaimAction { get; }
-        public NotOperationalRule(Action<Action> claimAction, IWarrantyRules next) : base(next)
+        public CircuitryRule(Action<Action> claimAction, IWarrantyRules next) : base(next)
         {
             base.Claim = base.Forward;
             this.ClaimAction = claimAction;
         }
 
-        public override void NotOperational()
+        protected override void HandleCircuitryFailed()
         {
             base.Claim = this.ClaimAction;
         }
 
-        public override void Operational()
+        protected override void HandleCircuitryOperational()
         {
             base.Claim = this.Forward;
         }
