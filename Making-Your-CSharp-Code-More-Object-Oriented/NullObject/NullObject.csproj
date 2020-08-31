@@ -46,6 +46,8 @@
     <Compile Include="IWarrantyRulesFactory.cs" />
     <Compile Include="IWarrantyMapFactory.cs" />
     <Compile Include="IWarrantyRules.cs" />
+    <Compile Include="Rules\ConditionalRule.cs" />
+    <Compile Include="Rules\ChristmassRules.cs" />
     <Compile Include="Rules\DefaultRules.cs" />
     <Compile Include="Rules\NotSatisfiedRule.cs" />
     <Compile Include="Rules\ChainedRule.cs" />
